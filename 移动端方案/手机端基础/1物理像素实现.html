@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>mobile</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    #wrap {
+        width: 16rem;
+        height: 1px;
+        margin-top: 50px;
+        background: blueviolet;
+    }
+</style>
+
+<body>
+    <div id="wrap">
+
+    </div>
+    <script>
+        //改变元素在不同设备上css像素个数
+        ~~((num) => {
+            const dpr = window.devicePixelRatio || 1
+            const styleNode = document.createElement('style')
+            const w = document.documentElement.clientWidth * dpr / num
+            styleNode.innerText = `html{font-size:${w}px!important}`
+            document.head.appendChild(styleNode)
+
+            const scale = 1 / dpr
+            const viewport = document.querySelector('meta[name="viewport"]')
+            viewport.content = `initial-scale=${scale},minimum-scale=${scale},maximum-scale=${scale}`
+
+
+
+        })(16)       
+    </script>
+</body>
+
+</html>

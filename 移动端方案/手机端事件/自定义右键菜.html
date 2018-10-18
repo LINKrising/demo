@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>mobile</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    #menu {
+        position: absolute;
+        width: 100px;
+        height: 400px;
+        background: red;
+        display: none;
+    }
+</style>
+
+<body>
+    <div id="menu">
+
+    </div>
+    <script>
+        /*
+            touchstart
+            touchmove
+            touchend
+        */
+        window.onload = function () {
+            const menu = document.querySelector('#menu')
+            document.oncontextmenu = (ev) => {
+                ev = ev || event
+                let x = ev.clientX
+                let y = ev.clientY
+                menu.style.left = x+'px'
+                menu.style.top = y+'px'
+                menu.style.display = 'block'
+                return false
+            }
+            document.onclick = ()=>{
+                menu.style.display = 'none'
+
+            }
+
+
+
+        }
+
+    </script>
+</body>
+
+</html>

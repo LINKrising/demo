@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>mobile</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    #wrap {
+
+        width: 200px;
+        height: 400px;
+        background: red;
+
+    }
+</style>
+
+<body>
+    <div id="wrap">
+
+    </div>
+    <script>
+        /*
+            touchstart
+            touchmove
+            touchend
+
+            changedTouches 触发当前事件的手指列表
+            targetTouches 触发当前事件时元素上的手指列表
+            touches 触发当前事件时屏幕上的手指列表
+
+        */
+        const wrap = document.querySelector('#wrap')
+        wrap.addEventListener('touchend',(ev)=>{
+            ev = ev||event
+            console.log(ev)
+            wrap.innerHTML= "changedTouches"+ev.changedTouches.length+'<br/>'
+            wrap.innerHTML += "targetTouches" + ev.targetTouches.length + '<br/>'
+            wrap.innerHTML += "touches" + ev.touches.length
+        })
+
+
+
+    </script>
+</body>
+
+</html>

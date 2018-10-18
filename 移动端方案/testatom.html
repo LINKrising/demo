@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+</head>
+
+<body>
+</body>
+<script type="text/javascript">
+  // var obj1 = {
+  //   name: 'Leo'
+  // }
+  // console.log(obj1.name)
+  // var obj2 = obj1
+  // console.log(obj2.name)
+  // obj2.name = 'LiNK'
+  // console.log(obj2.name)
+  // console.log(obj1.name)
+
+
+  // function fn(obj) {
+  //   obj = {
+  //     name: 'loo'
+  //   }
+  //   console.log(obj.name)
+  // }
+  // fn(obj1)
+  // console.log(obj1.name)
+
+  // // var a
+  // // ~(function (params) {
+  // //   params = 4
+  // //   console.log(params)
+  // // })(a)
+
+
+  // function Person(name) {
+  //   console.log(this)
+  //   this.name = name
+  //   this.getName = (function () {
+  //     console.log(this.name, this)
+  //   })();
+  //   this.getName2 = (() => {
+  //     console.log(this.name, this)
+  //   })()
+  // }
+  var a = 20,
+    b = 20
+
+  function fn(x) {
+    var a = 300,
+      c = 400
+    console.log(a, b, c, x)
+
+    function bar(d) {
+      var a = 3,
+        b = 2
+      console.log(a, b, c, d, x);
+    }
+    bar(100)
+    bar(200)
+  }
+  fn(2)
+  //变量函数提升，赋值语句才真正赋值
+  // var b = 3
+  // var c = 4
+  // function c(c) {
+  //   console.log(c);
+  // }
+  // c(2)
+
+  //先变量
+  function f() {}
+  var f
+  console.log(typeof f)
+  var obj = {
+    name: 'dd',
+    age: '2'
+  }
+  Object.defineProperty(obj, 'me', {
+    get: function () {
+      return this.name + this.age
+    },
+    set: function (val) {
+      val = val.split(",")
+      this.name = val[0]
+      this.age = val[1]
+
+    }
+  })
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      console.log(obj[key])
+      
+    }
+  }
+  obj.me = 'ff,30'
+  console.log(obj)
+  console.log(obj.me)
+ console.log(obj.name)
+ console.log(obj.age)
+</script>
+
+</html>

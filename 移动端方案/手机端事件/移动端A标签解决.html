@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>mobile</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+
+</style>
+
+<body>
+    <a href="http://www.baidu.com">baidu</a> <a href="http://www.baidu.com">baidu</a><a href="http://www.baidu.com">baidu</a>
+    <script>
+        //1.pc端事件可以在移动端触发
+        //2.pc端事件有默认的300ms延迟
+
+        window.onload = function () {
+            const aNodes = document.querySelectorAll('a')
+            document.addEventListener('touchstart', (ev) => {
+                ev = ev || event
+                console.log(ev.cancelable)
+                ev.preventDefault()
+            })
+            ~~((num) => {
+                const styleNode = document.createElement('style')
+                const w = document.documentElement.clientWidth / num
+                styleNode.innerText = `html{font-size:${w}px!important}`
+                document.head.appendChild(styleNode)
+            })(16)
+            for(var i=0;i< aNodes.length;i++){
+                aNodes[i].addEventListener('touchstart', function () {
+                    this.isMoved = false
+
+                })
+                aNodes[i].addEventListener('touchmove', function () {
+                    this.isMoved = true
+
+                })                
+                aNodes[i].addEventListener('touchend',function(){
+                    if(!this.isMoved){
+                    location.href = this.href
+                    }
+
+                })
+            }
+        }
+
+    </script>
+</body>
+
+</html>

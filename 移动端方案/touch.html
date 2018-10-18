@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>touch</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    html,
+    body {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    #wrap {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .carousel-wrap {
+        position: relative;
+    }
+
+    .carousel-wrap>.list {
+        list-style: none;
+        overflow: hidden;
+        position: absolute;
+        transition: all 1s;
+    }
+
+    .carousel-wrap>.list>li {
+        float: left;
+        width: 20%;
+    }
+
+    .carousel-wrap>.list>li>a,
+    .carousel-wrap>.list>li>a>img {
+        display: block;
+    }
+
+    .carousel-wrap>.points-wrap {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        z-index: 99;
+    }
+
+    .carousel-wrap>.points-wrap>span {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: white;
+        margin-left: 3px;
+    }
+
+    .carousel-wrap>.points-wrap>span.active {
+        background: red;
+    }
+
+    .carousel-wrap>.list>li>a>img {
+        width: 100%;
+    }
+
+    @keyframes change {
+        0% {
+            transform: scale(1)
+        }
+        50% {
+            transform: scale(0.8)
+        }
+        100% {
+            transform: scale(1)
+        }
+    }
+
+    @keyframes change2 {
+        0% {
+            transform: scale(1, 1)
+        }
+        50% {
+            transform: scale(1, 0.8)
+        }
+        100% {
+            transform: scale(1, 1)
+        }
+    }
+</style>
+
+<body>
+    <div id="wrap">
+        <div class="carousel-wrap">
+            <div class="points-wrap"></div>
+        </div>
+    </div>
+    <script src="transform.js"></script>
+    <script>
+        window.onload = function () {
+            document.addEventListener('touchstart', (ev) => {
+                    ev = ev || event
+                    ev.preventDefault()
+                })
+
+
+                ~~(() => {
+                    const imgArr = ['img/01.jpg', 'img/02.jpg', 'img/03.jpg']
+                    const carouselWrap = document.querySelector('.carousel-wrap')
+                    const pointsWrap = document.querySelector('.carousel-wrap>.points-wrap')
+
+                    if (pointsWrap) {
+                        for (let i = 0; i < imgArr.length; i++) {
+                            if (i == 0) {
+                                pointsWrap.innerHTML += '<span class="active"></span>'
+                            } else {
+                                pointsWrap.innerHTML += ' <span></span>'
+                            }
+
+                        }
+                    }
+                    const points = document.querySelectorAll('.carousel-wrap>.points-wrap>span')
+
+
+                    if (carouselWrap) {
+                        var styleNode = document.createElement('style')
+                        var ulNode = document.createElement('ul')
+                        ulNode.className = 'list'
+
+                        for (let i = 0; i < imgArr.length; i++) {
+                            ulNode.innerHTML += `<li><a href=""><img src="${imgArr[i]}" alt=""></a></li>`
+                        }
+                        styleNode.innerText = '.carousel-wrap>.list>li {float: left;width:' + (1 / imgArr.length *
+                                100) +
+                            '%;}.carousel-wrap>.list {width:' + (imgArr.length * 100) + '%;}'
+                        carouselWrap.appendChild(ulNode)
+                        document.head.appendChild(styleNode)
+                        const imgNode = document.querySelector('.carousel-wrap>.list>li>a>img')
+                        setTimeout(() => {
+                            carouselWrap.style.height = imgNode.offsetHeight + 'px'
+                        }, 100);
+
+                        /*
+                             拿到元素开始的位置->拿到手指开始的位置->手指实时move位置->手指移动距离给元素
+                        */
+                        let startX = 0
+                        let elementX = 0
+                        let disX = 0
+
+                        carouselWrap.addEventListener('touchstart', (ev) => {
+                            ulNode.style.animation = ''
+                            ev = ev || event
+                            let touchT = ev.changedTouches[0];
+                            startX = touchT.clientX;
+                            elementX = tran.css(ulNode, 'translateX')
+
+                        })
+                        carouselWrap.addEventListener('touchmove', (ev) => {
+                            ev = ev || event
+                            let touchT = ev.changedTouches[0]
+                            let nowX = touchT.clientX
+                            disX = nowX - startX
+                            console.log(disX)
+                            //translateX = elementX + disX
+                            tran.css(ulNode, 'translateX', elementX + disX)
+
+                        })
+                        carouselWrap.addEventListener('touchend', (ev) => {
+                            ev = ev || event
+                            // 用index代表实时ul位置
+                            let index = tran.css(ulNode, 'translateX') / document.documentElement.clientWidth
+                            console.log(index)
+                            if (index > 0) {
+                                index = 1 - imgArr.length
+                            } else if (index <= 1 - imgArr.length) {
+                                index = 0
+                            }
+                            index = Math.round(index)
+                            for (let i = 0; i < points.length; i++) {
+                                points[i].classList.remove('active')
+                            }
+                            points[-index].classList.add('active')
+                            // translateX = index * (document.documentElement.clientWidth)
+                            tran.css(ulNode, 'translateX', index * (document.documentElement.clientWidth))
+                            // if (disX > 0) {
+                            //     ulNode.style.animation = "change 1s"
+                            // } else {
+                            //     ulNode.style.animation = "change2 1s"
+                            // }
+                            ulNode.style.animation = "change2 1s"
+                        })
+                    }
+                })()
+        }
+    </script>
+</body>
+
+</html>

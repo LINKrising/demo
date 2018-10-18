@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>mobile</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    #wrap {
+        width: 200px;
+        height: 200px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        background: blueviolet;
+        line-height: 200px;
+        text-align: center;
+    }
+    #inner{
+        height: 50px;
+        width: 50px;
+    }
+</style>
+
+<body>
+    <div id="wrap">
+        <div id="inner">
+            <div id="inner">
+                inner
+            </div>
+        </div>
+    </div>
+    text
+    <script>
+        /*
+            touchstart
+            touchmove
+            touchend
+
+            长按复制等问题，决定阻止事件默认行为
+            浏览器(不能document阻止)跟//真机有问题
+        */
+        window.onload = function () {
+            document.addEventListener('touchstart', (ev) => {
+                ev = ev || event
+                console.log(ev.cancelable)
+                ev.preventDefault()
+            })
+            const wrap = document.querySelector('#wrap')
+            const inner = document.querySelector('#inner')
+            wrap.addEventListener('touchstart', (ev) => {
+                ev = ev || event
+                console.log('touchstart')
+            })
+            wrap.addEventListener('touchmove', () => {
+                console.log('touchmove')
+            })
+            wrap.addEventListener('touchend', () => {
+                console.log('touchend')
+            })
+            inner.addEventListener('touchstart', (ev) => {
+                ev = ev || event
+                ev.stopPropagation();
+                console.log('touchstart')
+            })
+        }
+
+    </script>
+</body>
+
+</html>
